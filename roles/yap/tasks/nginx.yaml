@@ -1,0 +1,9 @@
+- name: add yap site config
+  template: src=yap.j2 dest=/etc/nginx/sites-available/yap owner=root group=root
+  tags: [yap, nginx, configuration]
+
+- name: enable yap site config
+  file: src=/etc/nginx/sites-available/yap dest=/etc/nginx/sites-enabled/yap state=link
+  notify:
+    - reload nginx
+  tags: [yap, nginx, configuration]

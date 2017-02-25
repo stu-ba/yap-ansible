@@ -1,0 +1,21 @@
+---
+
+- name: start circus
+  become: yes
+  service: name=circus state=started
+
+- name: enable circus
+  become: yes
+  service: name=circus state=started enabled=yes
+
+- name: restart circus
+  become: yes
+  service: name=circus state=restarted
+
+- name: stop circus
+  become: yes
+  service: name=circus state=stopped
+
+- name: reload circus
+  become: yes
+  service: name=circus state=reloaded

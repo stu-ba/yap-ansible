@@ -1,0 +1,39 @@
+---
+# Composr can be installed only manually
+
+# Check if server has php installed
+- name: set php_executable variable to a default if not defined
+  set_fact:
+    php_executable: php
+  when: php_executable is not defined
+
+# Check if Composer is already installed (in composer_path - ansible variable)
+- name: check if Composer is installed
+  stat: "path={{ composer_path }}"
+  register: composer_bin
+
+- name: download Composer installer
+  get_url:
+    url: https://getcomposer.org/installer
+    dest: /tmp/composer-installer.php
+    mode: 0755
+  when: not composer_bin.stat.exists
+
+- name: run Composer installer
+  command: >
+    {{ php_executable }} composer-installer.php
+    chdir=/tmp
+  when: not composer_bin.stat.exists
+
+- name: move composer into globally-accessible location
+  become: yes
+  shell: >
+    mv /tmp/composer.phar {{ composer_path }}
+    creates={{ composer_path }}
+  when: not composer_bin.stat.exists
+
+- name: update Composer to latest version
+  shell: >
+    {{ php_executable }} {{ composer_path }} self-update
+  register: composer_update
+  changed_when: "'Updating to version' in composer_update.stdout"

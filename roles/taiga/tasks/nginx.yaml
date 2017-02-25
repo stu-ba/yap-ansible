@@ -1,0 +1,16 @@
+---
+
+- name: add taiga site
+  become: yes
+  template:
+    src: "{{ role_path }}/templates/etc/nginx/sites-available/taiga.j2"
+    dest: "/etc/nginx/sites-available/taiga"
+
+- name: enable taiga site config
+  become: yes
+  file: 
+    src: /etc/nginx/sites-available/taiga
+    dest: /etc/nginx/sites-enabled/taiga 
+    state: link
+  notify:
+    - reload nginx

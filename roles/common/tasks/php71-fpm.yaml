@@ -1,0 +1,29 @@
+---
+
+- name: install php7.1-fpm dependencies
+  become: yes
+  apt: pkg="{{ item }}" state=latest
+  with_items:
+    - apt-transport-https
+    - lsb-release
+    - ca-certificates
+
+- name: add php7.1 gpg key
+  become: yes
+  apt_key:
+    url: "https://packages.sury.org/php/apt.gpg"
+    keyring: /etc/apt/trusted.gpg.d/php.gpg
+
+- name: add php7.1 repository into sources list
+  become: yes
+  apt_repository:
+    repo: deb https://packages.sury.org/php/ {{ distribution_codename }} main
+    update-cache: yes
+
+- name: install php7.1 and php7.1-fpm
+  become: yes
+  apt: pkg="{{ item }}" state=present update_cache=no
+  with_items:
+    - php7.1
+    - php7.1-fpm
+  notify: start php7.1-fpm

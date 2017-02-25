@@ -1,0 +1,77 @@
+---
+
+- name: create folders
+  become: yes
+  file:
+    name: "/home/{{ taiga_user }}/{{ item }}"
+    state: directory
+    owner: "{{ taiga_user }}"
+    group: "{{ taiga_user }}"
+  with_items:
+    - logs
+    - conf
+
+- name: download the code from github
+  become: yes
+  git:
+    repo: "{{ taiga_back_repo }}"
+    version: stable
+    dest: "/home/{{ taiga_user }}/taiga-back"
+
+- name: copy taiga-back settings (local.py)
+  become: yes
+  template:
+    src: "{{ role_path }}/templates/back/settings/local.py.j2"
+    dest: "/home/{{ taiga_user }}/taiga-back/settings/local.py"
+
+- name: change owner of taiga-back
+  become: yes
+  file:
+    path: "/home/{{ taiga_user }}/taiga-back"
+    state: directory
+    recurse: yes
+    owner: taiga
+    group: taiga
+
+- name: install requirements in virtualenv
+  become: yes
+  become_user: "{{ taiga_user }}"
+  pip: 
+    virtualenv: "/home/{{ taiga_user }}/.venv"
+    virtualenv_python: python3.4
+    requirements: "/home/{{ taiga_user }}/taiga-back/requirements.txt"
+
+- name: run migrations
+  become: yes
+  become_user: "{{ taiga_user }}"
+  django_manage:
+    app_path: "/home/{{ taiga_user }}/taiga-back"
+    command: migrate
+    virtualenv: "/home/{{ taiga_user }}/.venv"
+  tags: migrate
+
+## needs tweaks (run this only once, or check before running...)
+- name: load data
+  become: yes
+  become_user: "{{ taiga_user }}"
+  django_manage:
+    app_path: "/home/{{ taiga_user }}/taiga-back"
+    command: loaddata
+    fixtures: "initial_user initial_project_templates initial_role"
+    virtualenv: "/home/{{ taiga_user }}/.venv"
+
+- name: run compile messages
+  become: yes
+  become_user: "{{ taiga_user }}"
+  django_manage:
+    app_path: "/home/{{ taiga_user }}/taiga-back"
+    command: compilemessages
+    virtualenv: "/home/{{ taiga_user }}/.venv"
+
+- name: run taiga collectstatic
+  become: yes
+  become_user: "{{ taiga_user }}"
+  django_manage:
+    app_path: "/home/{{ taiga_user }}/taiga-back"
+    command: collectstatic
+    virtualenv: "/home/{{ taiga_user }}/.venv"

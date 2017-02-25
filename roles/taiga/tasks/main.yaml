@@ -1,0 +1,28 @@
+---
+
+- name: create user {{ taiga_user }}
+  become: yes
+  user:
+    name: "{{ taiga_user }}"
+  tags: [taiga]
+
+- include: "{{ role_path }}/tasks/dependencies.yaml" 
+  tags: [taiga-dependencies, taiga]
+
+- include: "{{ role_path }}/tasks/postgresql.yaml"
+  tags: [taiga-database, taiga]
+
+- include: "{{ role_path }}/tasks/taiga-back.yaml"
+  tags: [taiga-back-install, taiga]
+
+- include: "{{ role_path }}/tasks/taiga-front.yaml"
+  tags: [taiga-front-install, taiga]
+
+- include: "{{ role_path }}/tasks/circus.yaml"
+  tags: [circus-install, circus, taiga]
+
+- include: "{{ role_path }}/tasks/nginx.yaml"
+  tags: [taiga-nginx-config, nginx, taiga]
+
+- include: "{{ role_path }}/tasks/iptables.yaml"
+  tags: [iptables, taiga]

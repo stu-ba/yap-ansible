@@ -1,0 +1,21 @@
+---
+
+- name: install circus
+  become: yes
+  pip: 
+    name: circus
+    state: present
+  notify: start circus
+
+- name: copy circus init file
+  become: yes
+  template:
+    src: "{{ role_path }}/templates/conf/circus.conf.j2"
+    dest: /home/{{ taiga_user }}/conf/circus.ini
+
+- name: copy service circus config
+  become: yes
+  template:
+    src: "{{ role_path }}/templates/etc/systemd/system/circus.service.j2"
+    dest: /etc/systemd/system/circus.service
+  notify: [enable circus, restart circus]

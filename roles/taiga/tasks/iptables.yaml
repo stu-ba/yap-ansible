@@ -1,0 +1,11 @@
+---
+
+- name: allow taiga connections (port {{ taiga_port }})
+  become: yes
+  become_method: sudo 
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ taiga_port }}"
+    jump: ACCEPT
+  notify: reconfigure iptables-persistant

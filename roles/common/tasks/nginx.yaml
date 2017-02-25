@@ -1,0 +1,11 @@
+---
+
+- name: install nginx
+  become: yes
+  apt: pkg=nginx state=present update_cache=no
+  notify: start nginx
+
+- name: disable default config
+  become: yes
+  file: dest=/etc/nginx/sites-enabled/default state=absent
+  notify: reload nginx

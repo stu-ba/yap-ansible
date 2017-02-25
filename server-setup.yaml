@@ -1,0 +1,7 @@
+- name: install common packages
+  hosts: matrix
+  vars: 
+    - sudo_user: neo
+  roles:
+    - common
+    - taiga

@@ -1,0 +1,4 @@
+---
+distribution_codename: jessie
+
+composer_path: /usr/local/bin/composer

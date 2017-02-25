@@ -1,0 +1,59 @@
+---
+
+# Updating gai so apt can connect to ipv4 servers by default
+- name: update gai.conf
+  become: yes
+  copy:
+    src: "{{ role_path }}/files/etc/gai.conf"
+    dest: /etc/gai.conf
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  tags: [server-setup, gai]
+
+# Run apt-get update iff cache is older than 3600
+- name: apt update
+  become: yes
+  apt: update_cache=yes cache_valid_time=3600
+  tags: [apt-update, apt]
+
+# Run apt-get upgrade
+- name: apt upgrade
+  become: yes
+  apt:
+    upgrade: safe
+  tags: [apt-upgrade, apt]
+
+# Remove apache2
+- name: remove apache2
+  become: yes
+  apt: pkg=apache2 state=absent
+
+# Install some utilities (zip, unzip, git, curl) and update if possible
+- name: install utilities
+  become: yes
+  apt: pkg="{{ item }}" state=latest update_cache=no
+  with_items:
+    - zip
+    - unzip
+    - git
+    - curl
+
+- include: "{{ role_path }}/tasks/nginx.yaml" 
+  tags: [nginx, nginx-install, initial-setup]
+
+- include: "{{ role_path }}/tasks/postgresql.yaml" 
+  tags: [postgresql, postgresql-install, initial-setup]
+
+- include: "{{ role_path }}/tasks/php71-fpm.yaml" 
+  tags: [php71-fpm, php71-fpm-install, initial-setup]
+
+- include: "{{ role_path }}/tasks/composer.yaml" 
+  tags: [composer, composer-install, initial-setup]
+
+- include: "{{ role_path }}/tasks/redis.yaml" 
+  tags: [redis, redis-install, initial-setup]
+  
+- include: "{{ role_path }}/tasks/iptables.yaml" 
+  tags: [iptables, initial-setup]

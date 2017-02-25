@@ -1,0 +1,14 @@
+---
+
+- name: install postgresql
+  become: yes
+  become_method: sudo
+  apt: pkg="{{ item }}" state=present update_cache=no
+  with_items:
+    - postgresql-9.4
+    - postgresql-contrib-9.4
+    - postgresql-doc-9.4
+    - postgresql-server-dev-9.4
+    - libpq-dev
+    - python-psycopg2
+  notify: start postgresql

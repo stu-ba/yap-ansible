@@ -1,0 +1,40 @@
+---
+
+- name: install iptables-persistent
+  become: yes
+  apt: pkg=iptables-persistent state=present update_cache=no
+  notify: start iptables-persistent
+
+- name: allow data between items on the localhost network
+  become: yes
+  iptables:
+    chain: INPUT
+    in_interface: lo
+    jump: ACCEPT
+  notify: reconfigure iptables-persistant
+
+- name: allow/keep current related/established rules (current SSH connection)
+  become: yes
+  iptables:
+    chain: INPUT
+    #match: conntrack
+    #https://github.com/ansible/ansible-modules-extras/issues/1209
+    ctstate: ['RELATED', 'ESTABLISHED']
+    jump: ACCEPT
+  notify: reconfigure iptables-persistant
+
+- name: allow SSH connections
+  become: yes
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 22
+    jump: ACCEPT
+  notify: reconfigure iptables-persistant
+
+- name: make INPUT chain default to DROP
+  become: yes
+  iptables: 
+    chain: INPUT
+    policy: DROP
+  notify: reconfigure iptables-persistant
