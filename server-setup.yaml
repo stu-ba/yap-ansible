@@ -1,5 +1,8 @@
+---
+
 - name: install common packages
   hosts: matrix
+  gather_facts: no
   vars: 
     - sudo_user: neo
   roles:

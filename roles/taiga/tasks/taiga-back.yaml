@@ -30,8 +30,8 @@
     path: "{{ taiga_folder_back }}"
     state: directory
     recurse: yes
-    owner: taiga
-    group: taiga
+    owner: "{{ taiga_user }}"
+    group: "{{ taiga_user }}"
 
 - name: install requirements in virtualenv
   become: yes

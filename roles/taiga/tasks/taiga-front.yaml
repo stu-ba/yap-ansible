@@ -19,5 +19,5 @@
     path: "{{ taiga_folder_front }}"
     state: directory
     recurse: yes
-    owner: taiga
-    group: taiga
+    owner: "{{ taiga_user }}"
+    group: "{{ taiga_user }}"

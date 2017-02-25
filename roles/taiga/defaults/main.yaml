@@ -2,8 +2,8 @@
 
 # Taiga connection
 taiga_server_port: 8080
-taiga_server_ip: hostvars[matrix]['ansible_default_ipv4']['address'] # matrix IP
-taiga_server_ip_v6: hostvars[inventory_hostname]['ansible_default_ipv6']['address']
+taiga_server_ip: "{{ ansible_default_ipv4.address }}" # Determined by $ ip -4 route get 8.8.8.8 // also check out roles/taiga/vars/main.yaml
+taiga_server_ip_v6: "{{ ansible_default_ipv6.address }}"
 
 # Taiga user / folder structure / .venv
 taiga_user: taiga
@@ -12,7 +12,7 @@ taiga_folder_back: "/home/{{ taiga_user }}/taiga-back"
 taiga_venv: "/home/{{ taiga_user }}/.venv"
 
 # Taiga database settings
-taiga_database_user: "{{ taiga_user }}" # should match with taiga_user! since postgres uses peer login
+taiga_database_user: "{{ taiga_user }}" # should match with taiga_user! since postgres is set up to use peer login for any local connection
 taiga_database_name: taiga
 
 
