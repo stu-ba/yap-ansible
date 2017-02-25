@@ -5,18 +5,18 @@
   git:
     repo: "{{ taiga_front_dist_repo }}"
     version: stable
-    dest: "/home/{{ taiga_user }}/taiga-front-dist"
+    dest: "{{ taiga_folder_front }}"
 
 - name: install settings templates
   become: yes
   template:
     src: "{{ role_path }}/templates/front/dist/conf.json.j2"
-    dest: "/home/{{ taiga_user }}/taiga-front-dist/dist/conf.json"
+    dest: "{{ taiga_folder_front }}/dist/conf.json"
 
 - name: change owner
   become: yes
   file:
-    path: "/home/{{ taiga_user }}/taiga-front-dist"
+    path: "{{ taiga_folder_front }}"
     state: directory
     recurse: yes
     owner: taiga

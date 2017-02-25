@@ -16,18 +16,18 @@
   git:
     repo: "{{ taiga_back_repo }}"
     version: stable
-    dest: "/home/{{ taiga_user }}/taiga-back"
+    dest: "{{ taiga_folder_back }}"
 
 - name: copy taiga-back settings (local.py)
   become: yes
   template:
     src: "{{ role_path }}/templates/back/settings/local.py.j2"
-    dest: "/home/{{ taiga_user }}/taiga-back/settings/local.py"
+    dest: "{{ taiga_folder_back }}/settings/local.py"
 
 - name: change owner of taiga-back
   become: yes
   file:
-    path: "/home/{{ taiga_user }}/taiga-back"
+    path: "{{ taiga_folder_back }}"
     state: directory
     recurse: yes
     owner: taiga
@@ -37,17 +37,17 @@
   become: yes
   become_user: "{{ taiga_user }}"
   pip: 
-    virtualenv: "/home/{{ taiga_user }}/.venv"
+    virtualenv: "{{ taiga_venv }}"
     virtualenv_python: python3.4
-    requirements: "/home/{{ taiga_user }}/taiga-back/requirements.txt"
+    requirements: "{{ taiga_folder_back }}/requirements.txt"
 
 - name: run migrations
   become: yes
   become_user: "{{ taiga_user }}"
   django_manage:
-    app_path: "/home/{{ taiga_user }}/taiga-back"
+    app_path: "{{ taiga_folder_back }}"
     command: migrate
-    virtualenv: "/home/{{ taiga_user }}/.venv"
+    virtualenv: "{{ taiga_venv }}"
   tags: migrate
 
 ## needs tweaks (run this only once, or check before running...)
@@ -55,23 +55,23 @@
   become: yes
   become_user: "{{ taiga_user }}"
   django_manage:
-    app_path: "/home/{{ taiga_user }}/taiga-back"
+    app_path: "{{ taiga_folder_back }}"
     command: loaddata
     fixtures: "initial_user initial_project_templates initial_role"
-    virtualenv: "/home/{{ taiga_user }}/.venv"
+    virtualenv: "{{ taiga_venv }}"
 
 - name: run compile messages
   become: yes
   become_user: "{{ taiga_user }}"
   django_manage:
-    app_path: "/home/{{ taiga_user }}/taiga-back"
+    app_path: "{{ taiga_folder_back }}"
     command: compilemessages
-    virtualenv: "/home/{{ taiga_user }}/.venv"
+    virtualenv: "{{ taiga_venv }}"
 
 - name: run taiga collectstatic
   become: yes
   become_user: "{{ taiga_user }}"
   django_manage:
-    app_path: "/home/{{ taiga_user }}/taiga-back"
+    app_path: "{{ taiga_folder_back }}"
     command: collectstatic
-    virtualenv: "/home/{{ taiga_user }}/.venv"
+    virtualenv: "{{ taiga_venv }}"

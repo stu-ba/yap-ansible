@@ -1,11 +1,11 @@
 ---
 
-- name: allow taiga connections (port {{ taiga_port }})
+- name: allow taiga connections (port {{ taiga_server_port }})
   become: yes
   become_method: sudo 
   iptables:
     chain: INPUT
     protocol: tcp
-    destination_port: "{{ taiga_port }}"
+    destination_port: "{{ taiga_server_port }}"
     jump: ACCEPT
   notify: reconfigure iptables-persistant

@@ -1,5 +1,5 @@
 server {
-    listen 8080;
+    listen {{ taiga_server_port }};
     server_name _;
 
     large_client_header_buffers 4 32k;
@@ -11,7 +11,7 @@ server {
 
     # Frontend
     location / {
-        root /home/{{ taiga_user }}/taiga-front-dist/dist/;
+        root {{ taiga_folder_front }}/dist/;
         try_files $uri $uri/ /index.html;
     }
 
@@ -39,11 +39,11 @@ server {
 
     # Static files
     location /static {
-        alias /home/{{ taiga_user }}/taiga-back/static;
+        alias {{ taiga_folder_back }}/static;
     }
 
     # Media files
     location /media {
-        alias /home/{{ taiga_user }}/taiga-back/media;
+        alias {{ taiga_folder_back }}/media;
     }
 }
