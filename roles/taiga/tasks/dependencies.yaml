@@ -28,3 +28,4 @@
     - virtualenvwrapper
     - libxml2-dev
     - libxslt-dev
+  tags: [apt]

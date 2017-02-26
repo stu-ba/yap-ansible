@@ -1,4 +1,3 @@
 ---
-distribution_codename: jessie
-
+sudo_user: neo #is also set in ansible.cfg
 composer_path: /usr/local/bin/composer

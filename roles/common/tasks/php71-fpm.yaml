@@ -7,18 +7,21 @@
     - apt-transport-https
     - lsb-release
     - ca-certificates
+  tags: [apt]
 
 - name: add php7.1 gpg key
   become: yes
   apt_key:
     url: "https://packages.sury.org/php/apt.gpg"
     keyring: /etc/apt/trusted.gpg.d/php.gpg
+  tags: [apt]
 
 - name: add php7.1 repository into sources list
   become: yes
   apt_repository:
-    repo: deb https://packages.sury.org/php/ {{ distribution_codename }} main
+    repo: deb https://packages.sury.org/php/ {{ ansible_lsb.codename | default('jessie') }} main
     update-cache: yes
+  tags: [apt]
 
 - name: install php7.1 and php7.1-fpm
   become: yes
@@ -27,3 +30,4 @@
     - php7.1
     - php7.1-fpm
   notify: start php7.1-fpm
+  tags: [apt]

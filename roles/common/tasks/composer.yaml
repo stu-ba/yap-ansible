@@ -25,7 +25,7 @@
     chdir=/tmp
   when: not composer_bin.stat.exists
 
-- name: move composer into globally-accessible location
+- name: move Composer into globally-accessible location
   become: yes
   shell: >
     mv /tmp/composer.phar {{ composer_path }}

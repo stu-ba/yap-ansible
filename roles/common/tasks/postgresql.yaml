@@ -10,5 +10,6 @@
     - postgresql-doc-9.4
     - postgresql-server-dev-9.4
     - libpq-dev
-    - python-psycopg2
+    - python-psycopg2 # so we can use ansible postgresql module
   notify: start postgresql
+  tags: [apt]

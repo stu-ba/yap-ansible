@@ -29,6 +29,7 @@
 - name: remove apache2
   become: yes
   apt: pkg=apache2 state=absent
+  tags: [apache2, apt]
 
 # Install some utilities (zip, unzip, git, curl) and update if possible
 - name: install utilities
@@ -39,6 +40,7 @@
     - unzip
     - git
     - curl
+  tags: [apt]
 
 - include: "{{ role_path }}/tasks/nginx.yaml" 
   tags: [nginx, nginx-install, initial-setup]

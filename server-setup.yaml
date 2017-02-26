@@ -2,9 +2,24 @@
 
 - name: install common packages
   hosts: matrix
-  gather_facts: no
-  vars: 
-    - sudo_user: neo
+  gather_facts: yes
+  pre_tasks:
+    - name: check OS family is Debian
+      fail:
+        msg: OS family is not Debian
+      when: ansible_os_family != "Debian"
   roles:
     - common
     - taiga
+
+#debug block is only used in development, for displaying variables
+
+# - name: debug block
+#   hosts: matrix
+#   gather_facts: yes
+#   vars:
+#     sudo_user: neo
+#   tasks:
+#   - name: debug
+#     debug:
+#       msg: "System {{ ansible_lsb.codename }} - {{ ansible_os_family }}"

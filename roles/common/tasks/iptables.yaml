@@ -4,6 +4,7 @@
   become: yes
   apt: pkg=iptables-persistent state=present update_cache=no
   notify: start iptables-persistent
+  tags: [apt]
 
 - name: allow data between items on the localhost network
   become: yes
