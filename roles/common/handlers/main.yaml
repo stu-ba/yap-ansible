@@ -1,61 +1,49 @@
 - name: start postgresql
   become: yes
-  become_method: sudo
   service: name=postgresql state=started
 
 - name: restart postgresql
   become: yes
-  become_method: sudo
   service: name=postgresql state=restarted
 
 - name: start nginx
   become: yes
-  become_method: sudo
   service: name=nginx state=started
 
 - name: reload nginx
   become: yes
-  become_method: sudo
   service: name=nginx state=reloaded
 
 - name: restart nginx
   become: yes
-  become_method: sudo
   service: name=nginx state=restarted
 
 - name: start php7.1-fpm
   become: yes
-  become_method: sudo
   service: name=nginx state=started
 
 - name: restart php7.1-fpm
   become: yes
-  become_method: sudo
   service: name=nginx state=restarted
 
 - name: start redis-server
   become: yes
-  become_method: sudo
   service: name=redis-server state=started
 
 - name: restart redis-server
   become: yes
-  become_method: sudo
   service: name=redis-server state=restarted
 
 - name: start iptables-persistent
   become: yes
-  become_method: sudo
   service: name=netfilter-persistent state=started
 
 - name: restart iptables-persistent
   become: yes
-  become_method: sudo
   service: name=netfilter-persistent state=restarted
 
 - name: reconfigure iptables-persistant
   become: yes
-  become_method: sudo
   shell: >
     dpkg-reconfigure -p critical iptables-persistent
 
