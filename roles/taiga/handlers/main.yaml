@@ -2,20 +2,50 @@
 
 - name: start circus
   become: yes
-  service: name=circus state=started
-
-- name: enable circus
-  become: yes
-  service: name=circus state=started enabled=yes
-
-- name: restart circus
-  become: yes
-  service: name=circus state=restarted
+  systemd: name=circus daemon_reload=yes state=started
 
 - name: stop circus
   become: yes
-  service: name=circus state=stopped
+  systemd: name=circus state=stopped
+
+- name: enable circus
+  become: yes
+  systemd: name=circus daemon_reload=yes enabled=yes
+
+- name: disable circus
+  become: yes
+  systemd: name=circus state=stopped enabled=no
+
+- name: restart circus
+  become: yes
+  systemd: name=circus daemon_reload=yes state=restarted
 
 - name: reload circus
   become: yes
-  service: name=circus state=reloaded
+  systemd: name=circus daemon_reload=yes state=reloaded
+
+### taiga.service
+
+- name: start taiga-service
+  become: yes
+  systemd: name=taiga daemon_reload=yes state=started
+
+- name: stop taiga-service
+  become: yes
+  systemd: name=taiga state=stopped
+
+- name: enable taiga-service
+  become: yes
+  systemd: name=taiga daemon_reload=yes enabled=yes
+
+- name: disable taiga-service
+  become: yes
+  systemd: name=taiga state=stopped enabled=no
+
+- name: restart taiga-service
+  become: yes
+  systemd: name=taiga daemon_reload=yes state=restarted
+
+- name: reload taiga-service
+  become: yes
+  systemd: name=taiga daemon_reload=yes state=reloaded

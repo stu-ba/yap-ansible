@@ -18,8 +18,23 @@
 - include: "{{ role_path }}/tasks/taiga-front.yaml"
   tags: [taiga-front-install, taiga]
 
+- name: stop service manager if running and disable it
+  become: yes
+  ignore_errors: yes
+  changed_when: false
+  systemd: name="{{ item }}" state=stopped enabled=no
+  with_items:
+    - circus
+    - taiga
+  tags: [systemd, circus, service-manager]
+
 - include: "{{ role_path }}/tasks/circus.yaml"
-  tags: [circus-install, circus, taiga]
+  tags: [circus-install, circus, taiga, service-manager]
+  when: service_manager == "circus"
+
+- include: "{{ role_path }}/tasks/taiga-systemd.yaml"
+  tags: [systemd, taiga, service-manager]
+  when: service_manager == "systemd"
 
 - include: "{{ role_path }}/tasks/nginx.yaml"
   tags: [taiga-nginx-config, nginx, taiga]

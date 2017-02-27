@@ -5,17 +5,25 @@
   pip: 
     name: circus
     state: present
-  notify: start circus
 
-- name: copy circus init file
+- name: copy circus config file
   become: yes
   template:
     src: "{{ role_path }}/templates/conf/circus.conf.j2"
     dest: /home/{{ taiga_user }}/conf/circus.ini
 
-- name: copy service circus config
+- name: remove taiga-service config file
+  become: yes
+  file:
+    state: absent
+    path: /etc/systemd/system/taiga.service
+
+- name: copy circus service config
   become: yes
   template:
     src: "{{ role_path }}/templates/etc/systemd/system/circus.service.j2"
     dest: /etc/systemd/system/circus.service
-  notify: [enable circus, restart circus]
+
+- name: enable circus
+  become: yes
+  systemd: name=circus daemon_reload=yes enabled=yes

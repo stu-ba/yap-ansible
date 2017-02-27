@@ -1,0 +1,28 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=Taiga's Backend Engine
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=/tmp/gunicorn.pid
+User={{ taiga_user }}
+Group={{ taiga_user }}
+WorkingDirectory={{ taiga_folder_back }}
+Environment=PATH={{ taiga_venv }}/bin:$PATH
+Environment=PYTHONPATH={{ taiga_venv }}/lib/python3.4/site-packages
+Environment=USER={{ taiga_user }}
+Environment=LANG=en_US.UTF-8
+Environment=HOME=/home/{{ taiga_user }}
+ExecStart={{ taiga_venv }}/bin/gunicorn --pid /tmp/gunicorn.pid -D --chdir={{ taiga_folder_back }} --log-file=/home/{{ taiga_user }}/logs/gunicorn.log -w 4 --pythonpath=. -b 127.0.0.1:8001 taiga.wsgi
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+Restart=always
+RestartSec=5
+PrivateTmp=true
+StandardOutput=syslog+console
+StandardError=syslog+console
+
+[Install]
+WantedBy=multi-user.target

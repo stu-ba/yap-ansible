@@ -1,0 +1,23 @@
+---
+
+- name: remove circus config file
+  become: yes
+  file:
+    state: absent
+    path: /home/{{ taiga_user }}/conf/circus.ini
+
+- name: remove circus service config
+  become: yes
+  file:
+    state: absent
+    path: /etc/systemd/system/circus.service
+
+- name: copy taiga-service config
+  become: yes
+  template:
+    src: "{{ role_path }}/templates/etc/systemd/system/taiga.service.j2"
+    dest: /etc/systemd/system/taiga.service
+
+- name: enable taiga-service
+  become: yes
+  systemd: name=taiga daemon_reload=yes enabled=yes
