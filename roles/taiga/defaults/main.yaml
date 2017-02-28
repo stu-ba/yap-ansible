@@ -22,4 +22,5 @@ taiga_database_name: taiga
 taiga_back_repo: https://github.com/stu-ba/taiga-back.git
 taiga_front_dist_repo: https://github.com/stu-ba/taiga-front-dist.git
 
+# Systemd uses dameonized gunicorn to serve django app, circus does not.
 service_manager: systemd #or circus
