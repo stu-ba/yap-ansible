@@ -20,4 +20,4 @@
     state: directory
     recurse: yes
     owner: "{{ taiga_user }}"
-    group: "{{ taiga_user }}"
+    group: "{{ taiga_group }}"

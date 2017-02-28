@@ -18,6 +18,12 @@
     state: absent
     path: /etc/systemd/system/taiga.service
 
+- name: remove taiga.conf from tmpfiles.d
+  become: yes
+  file:
+    state: absent
+    path: /usr/lib/tmpfiles.d/taiga.conf
+
 - name: copy circus service config
   become: yes
   template:
@@ -27,3 +33,4 @@
 - name: enable circus
   become: yes
   systemd: name=circus daemon_reload=yes enabled=yes
+  notify: restart circus

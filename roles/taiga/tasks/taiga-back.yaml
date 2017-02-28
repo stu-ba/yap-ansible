@@ -6,7 +6,7 @@
     name: "/home/{{ taiga_user }}/{{ item }}"
     state: directory
     owner: "{{ taiga_user }}"
-    group: "{{ taiga_user }}"
+    group: "{{ taiga_group }}"
   with_items:
     - logs
     - conf
@@ -31,7 +31,7 @@
     state: directory
     recurse: yes
     owner: "{{ taiga_user }}"
-    group: "{{ taiga_user }}"
+    group: "{{ taiga_group }}"
 
 - name: install requirements in virtualenv
   become: yes

@@ -8,6 +8,7 @@ taiga_server_ip_v6: "{{ ansible_default_ipv6.address }}"
 
 # Taiga user / folder structure / .venv
 taiga_user: taiga
+taiga_group: "{{ taiga_user }}" 
 taiga_folder_front: "/home/{{ taiga_user }}/taiga-front-dist"
 taiga_folder_back: "/home/{{ taiga_user }}/taiga-back"
 taiga_venv: "/home/{{ taiga_user }}/.venv"

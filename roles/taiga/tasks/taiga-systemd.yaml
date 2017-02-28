@@ -18,6 +18,21 @@
     src: "{{ role_path }}/templates/etc/systemd/system/taiga.service.j2"
     dest: /etc/systemd/system/taiga.service
 
+- name: copy tempfiles.d/taiga.conf
+  become: yes
+  template:
+    src: "{{ role_path }}/templates/usr/lib/tmpfiles.d/taiga.conf.j2"
+    dest: /usr/lib/tmpfiles.d/taiga.conf
+
+- name: create /run/taiga folder to store pid file
+  become: yes
+  file:
+    name: /run/taiga
+    state: directory
+    owner: "{{ taiga_user }}"
+    group: "{{ taiga_group }}"
+
 - name: enable taiga-service
   become: yes
   systemd: name=taiga daemon_reload=yes enabled=yes
+  notify: restart taiga-service

@@ -6,16 +6,16 @@ After=network.target
 
 [Service]
 Type=forking
-PIDFile=/tmp/gunicorn.pid
+PIDFile=/run/taiga/gunicorn.pid
 User={{ taiga_user }}
-Group={{ taiga_user }}
+Group={{ taiga_group }}
 WorkingDirectory={{ taiga_folder_back }}
 Environment=PATH={{ taiga_venv }}/bin:$PATH
 Environment=PYTHONPATH={{ taiga_venv }}/lib/python3.4/site-packages
 Environment=USER={{ taiga_user }}
 Environment=LANG=en_US.UTF-8
 Environment=HOME=/home/{{ taiga_user }}
-ExecStart={{ taiga_venv }}/bin/gunicorn --pid /tmp/gunicorn.pid -D --chdir={{ taiga_folder_back }} --log-file=/home/{{ taiga_user }}/logs/gunicorn.log -w 4 --pythonpath=. -b 127.0.0.1:8001 taiga.wsgi
+ExecStart={{ taiga_venv }}/bin/gunicorn --pid /run/taiga/gunicorn.pid -D --chdir={{ taiga_folder_back }} --log-file=/home/{{ taiga_user }}/logs/gunicorn.log -w 4 --pythonpath=. -b 127.0.0.1:8001 taiga.wsgi
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
 Restart=always
