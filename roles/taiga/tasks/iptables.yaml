@@ -2,7 +2,6 @@
 
 - name: allow taiga connections (port {{ taiga_server_port }})
   become: yes
-  become_method: sudo 
   iptables:
     chain: INPUT
     protocol: tcp
