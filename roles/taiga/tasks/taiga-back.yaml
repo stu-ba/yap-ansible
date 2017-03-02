@@ -11,7 +11,7 @@
     - logs
     - conf
 
-- name: download the code from github
+- name: download the code from GitHub
   become: yes
   git:
     repo: "{{ taiga_back_repo }}"
@@ -23,6 +23,9 @@
   template:
     src: "{{ role_path }}/templates/back/settings/local.py.j2"
     dest: "{{ taiga_folder_back }}/settings/local.py"
+  notify:
+    - restart taiga-service
+    - restart circus
 
 - name: change owner of taiga-back
   become: yes
@@ -48,7 +51,7 @@
     app_path: "{{ taiga_folder_back }}"
     command: migrate
     virtualenv: "{{ taiga_venv }}"
-  tags: migrate
+  tags: [migrate]
 
 ## needs tweaks (run this only once, or check before running...)
 - name: load data

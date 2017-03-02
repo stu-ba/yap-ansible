@@ -2,7 +2,9 @@
 
 - name: install dependencies
   become: yes
-  apt: name="{{ item }}" state=present update_cache=no
+  apt: 
+    name: "{{ item }}"
+    state: present
   with_items:
     - build-essential
     - binutils-doc

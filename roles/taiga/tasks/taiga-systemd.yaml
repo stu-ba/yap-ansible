@@ -34,5 +34,9 @@
 
 - name: enable taiga-service
   become: yes
-  systemd: name=taiga daemon_reload=yes enabled=yes
-  notify: restart taiga-service
+  systemd: 
+    name: taiga 
+    daemon_reload: yes 
+    enabled: yes
+  notify: 
+    - restart taiga-service

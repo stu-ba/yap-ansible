@@ -2,7 +2,9 @@
 
 - name: install postgresql
   become: yes
-  apt: pkg="{{ item }}" state=present update_cache=no
+  apt: 
+    name: "{{ item }}" 
+    state: present
   with_items:
     - postgresql-9.4
     - postgresql-contrib-9.4
@@ -10,5 +12,6 @@
     - postgresql-server-dev-9.4
     - libpq-dev
     - python-psycopg2 # so we can use ansible postgresql module
-  notify: start postgresql
+  notify: 
+    - start postgresql
   tags: [apt]

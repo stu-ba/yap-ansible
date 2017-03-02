@@ -2,7 +2,9 @@
 
 - name: install iptables-persistent
   become: yes
-  apt: pkg=iptables-persistent state=present update_cache=no
+  apt:
+    name: iptables-persistent 
+    state: present 
   notify: start iptables-persistent
   tags: [apt]
 

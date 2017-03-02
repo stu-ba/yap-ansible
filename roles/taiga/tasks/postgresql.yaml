@@ -3,14 +3,12 @@
 - name: create postgresql user {{ taiga_user }}
   become: yes
   become_user: postgres
-  become_method: sudo
   postgresql_user:
     name: "{{ taiga_database_user }}"
 
 - name: ensure user does not have unnecessary privilege
   become: yes
   become_user: postgres
-  become_method: sudo
   postgresql_user: 
     name: "{{ taiga_user }}" 
     role_attr_flags: NOSUPERUSER,NOCREATEDB
@@ -18,7 +16,6 @@
 - name: create database "{{ taiga_database_user }}"
   become: yes
   become_user: postgres
-  become_method: sudo
   postgresql_db:
     name: "{{ taiga_database_name }}"
     owner: "{{ taiga_database_user }}"

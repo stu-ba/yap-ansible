@@ -2,7 +2,9 @@
 
 - name: install redis
   become: yes
-  apt: pkg=redis-server state=present update_cache=no
-  notify:
+  apt: 
+    name: redis-server 
+    state: present
+  notify: 
     - start redis-server
   tags: [apt]

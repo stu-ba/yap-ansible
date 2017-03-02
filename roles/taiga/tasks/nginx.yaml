@@ -5,6 +5,8 @@
   template:
     src: "{{ role_path }}/templates/etc/nginx/sites-available/taiga.j2"
     dest: "/etc/nginx/sites-available/taiga"
+  notify:
+    - reload nginx
 
 - name: enable taiga site config
   become: yes

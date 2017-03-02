@@ -19,6 +19,7 @@
 - name: restart circus
   become: yes
   systemd: name=circus daemon_reload=yes state=restarted
+  when: service_manager == "circus"
 
 - name: reload circus
   become: yes
@@ -45,6 +46,7 @@
 - name: restart taiga-service
   become: yes
   systemd: name=taiga daemon_reload=yes state=restarted
+  when: service_manager == "systemd"
 
 - name: reload taiga-service
   become: yes

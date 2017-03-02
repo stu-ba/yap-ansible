@@ -15,7 +15,9 @@
 # Run apt-get update iff cache is older than 3600
 - name: apt update
   become: yes
-  apt: update_cache=yes cache_valid_time=3600
+  apt: 
+    update_cache: yes 
+    cache_valid_time: 3600
   tags: [apt-update, apt]
 
 # Run apt-get upgrade
@@ -28,13 +30,17 @@
 # Remove apache2
 - name: remove apache2
   become: yes
-  apt: pkg=apache2 state=absent
+  apt: 
+    name: apache2
+    state: absent
   tags: [apache2, apt]
 
 # Install some utilities (zip, unzip, git, curl) and update if possible
 - name: install utilities
   become: yes
-  apt: pkg="{{ item }}" state=latest update_cache=no
+  apt: 
+    name: "{{ item }}"
+    state: latest
   with_items:
     - zip
     - unzip

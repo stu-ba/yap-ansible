@@ -22,7 +22,10 @@
   become: yes
   ignore_errors: yes
   changed_when: false
-  systemd: name="{{ item }}" state=stopped enabled=no
+  systemd: 
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
   with_items:
     - circus
     - taiga

@@ -14,7 +14,7 @@ taiga_folder_back: "/home/{{ taiga_user }}/taiga-back"
 taiga_venv: "/home/{{ taiga_user }}/.venv"
 
 # Taiga database settings
-# taiga_database_user should match with taiga_user! since postgres is set up to use peer login for any local connection
+# taiga_database_user should match with taiga_user! since postgresql is set up to use "peer" login for any local connection
 taiga_database_user: "{{ taiga_user }}"
 taiga_database_name: taiga
 
@@ -23,5 +23,5 @@ taiga_database_name: taiga
 taiga_back_repo: https://github.com/stu-ba/taiga-back.git
 taiga_front_dist_repo: https://github.com/stu-ba/taiga-front-dist.git
 
-# Systemd uses dameonized gunicorn to serve django app, circus does not.
+# Systemd uses daemonized gunicorn to serve django app, circus does not.
 service_manager: systemd #or circus

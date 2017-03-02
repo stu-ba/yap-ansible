@@ -11,6 +11,8 @@
   template:
     src: "{{ role_path }}/templates/conf/circus.conf.j2"
     dest: /home/{{ taiga_user }}/conf/circus.ini
+  notify:
+    - restart circus
 
 - name: remove taiga-service config file
   become: yes
@@ -29,8 +31,14 @@
   template:
     src: "{{ role_path }}/templates/etc/systemd/system/circus.service.j2"
     dest: /etc/systemd/system/circus.service
+  notify:
+    - restart circus
 
 - name: enable circus
   become: yes
-  systemd: name=circus daemon_reload=yes enabled=yes
-  notify: restart circus
+  systemd: 
+    name: circus 
+    daemon_reload: yes
+    enabled: yes
+  notify: 
+    - restart circus
