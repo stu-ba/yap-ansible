@@ -1,3 +1,26 @@
 ---
 
-yap_port: 80
+# Yap connection
+yap_server_port: 80
+# Determined by $ ip -4 route get 8.8.8.8 // also check out roles/yap/vars/main.yaml
+yap_server_ip: "{{ ansible_default_ipv4.address }}"
+yap_server_ip_v6: "{{ ansible_default_ipv6.address }}"
+
+# Yap user / folder structure
+yap_user: yap
+yap_group: "{{ yap_user }}" 
+
+# Yap database settings
+# yap_database_user should match with yap_user! since postgresql is set up to use "peer" login for any local connection
+# or check out /etc/postgres/9.4/main/pg_ident.conf
+yap_database_user: "{{ yap_user }}"
+yap_database_name: yap
+
+# GitHub repositories
+yap_back_repo: None
+yap_front_dist_repo: None 
+
+pg_environment: production
+
+#only used when development environmnet is set + another layer of security is pg_hba.conf
+pg_dev_password: neopw

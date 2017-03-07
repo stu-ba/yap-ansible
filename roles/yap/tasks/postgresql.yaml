@@ -1,0 +1,110 @@
+---
+
+- name: create postgresql user {{ yap_user }} [prod]
+  become: yes
+  become_user: postgres
+  postgresql_user:
+    name: "{{ yap_database_user }}"
+    password: ""
+  when: pg_environment == "production"
+
+- name: create postgresql user {{ yap_user }} [dev]
+  become: yes
+  become_user: postgres
+  postgresql_user:
+    name: "{{ yap_database_user }}"
+    role_attr_flags: LOGIN
+    password: "{{ pg_dev_password }}"
+  when: pg_environment == "development"
+
+- name: ensure user does not have unnecessary privilege
+  become: yes
+  become_user: postgres
+  postgresql_user: 
+    name: "{{ yap_user }}" 
+    role_attr_flags: NOSUPERUSER,NOCREATEDB
+
+- name: create database "{{ yap_database_user }}"
+  become: yes
+  become_user: postgres
+  postgresql_db:
+    name: "{{ yap_database_name }}"
+    owner: "{{ yap_database_user }}"
+
+
+- name: update privilege for "{{ yap_user }}" user to access "{{ taiga_database_name }} [dev]"
+  become: yes
+  become_user: postgres
+  postgresql_privs:
+    state: "{{ 'absent' if pg_environment == 'production' else 'present' }}"
+    db: "{{ taiga_database_name }}"
+    privs: ALL
+    type: table
+    objs: ALL_IN_SCHEMA
+    role: "{{ yap_database_user }}"
+    grant_option: no
+  notify: [update pg-hba]
+
+- name: update privilege for "{{ yap_user }}" user to access "{{ taiga_database_name }} [prod]"
+  become: yes
+  become_user: postgres
+  postgresql_privs:
+    db: "{{ taiga_database_name }}"
+    privs: SELECT,INSERT,UPDATE
+    objs: users_user
+    role: "{{ yap_database_user }}"
+    grant_option: no
+  when: pg_environment == "production"
+  notify: [update pg-hba]
+
+
+# - name: create postgresql dev user "{{ pg_dev_user }}"
+#   become: yes
+#   become_user: postgres
+#   postgresql_user:
+#     name: "{{ pg_dev_user }}"
+#     login_password: yes
+#     password: "{{ pg_dev_password }}"
+#   when: pg_environment == "development"
+#   notify: [update pg-hba]
+
+# - name: delete postgresql dev user "{{ pg_dev_user }}"
+#   become: yes
+#   become_user: postgres
+#   postgresql_user:
+#     name: "{{ pg_dev_user }}"
+#     state: absent
+#   when: pg_environment == "production"
+#   notify: [update pg-hba]
+
+# - name: ensure dev user does not have unnecessary privilege
+#   become: yes
+#   become_user: postgres
+#   postgresql_user: 
+#     name: "{{ pg_dev_user }}"
+#     role_attr_flags: NOSUPERUSER,NOCREATEDB
+#   when: pg_environment == "development"
+
+# - name: update privilege for "{{ pg_dev_user }}" for "{{ taiga_database_name }}" DB
+#   become: yes
+#   become_user: postgres
+#   postgresql_privs:
+#     db: "{{ taiga_database_name }}"
+#     privs: ALL
+#     type: table
+#     objs: ALL_IN_SCHEMA
+#     role: "{{ pg_dev_user }}"
+#   when: pg_environment == "development"
+#   notify: [update pg-hba]
+
+# - name: update privilege for "{{ pg_dev_user }}" for "{{ yap_database_name }}" DB
+#   become: yes
+#   become_user: postgres
+#   postgresql_privs:
+#     db: "{{ yap_database_name }}"
+#     privs: ALL
+#     type: table
+#     objs: ALL_IN_SCHEMA
+#     role: "{{ pg_dev_user }}"
+#   when: pg_environment == "development"
+#   notify: [update pg-hba]

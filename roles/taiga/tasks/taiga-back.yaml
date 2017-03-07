@@ -44,6 +44,14 @@
     virtualenv_python: python3.4
     requirements: "{{ taiga_folder_back }}/requirements.txt"
 
+- name: install bcrypt in virtualenv
+  become: yes
+  become_user: "{{ taiga_user }}"
+  pip: 
+    virtualenv: "{{ taiga_venv }}"
+    virtualenv_python: python3.4
+    name: bcrypt
+
 - name: run migrations
   become: yes
   become_user: "{{ taiga_user }}"

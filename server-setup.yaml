@@ -11,6 +11,7 @@
   roles:
     - common
     - taiga
+    - yap
 
 #debug block is only used in development, for displaying variables
 

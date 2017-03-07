@@ -1,0 +1,10 @@
+---
+
+- name: allow yap connections (port {{ yap_server_port }})
+  become: yes
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ yap_server_port }}"
+    jump: ACCEPT
+  notify: reconfigure iptables-persistant

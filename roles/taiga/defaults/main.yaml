@@ -15,9 +15,9 @@ taiga_venv: "/home/{{ taiga_user }}/.venv"
 
 # Taiga database settings
 # taiga_database_user should match with taiga_user! since postgresql is set up to use "peer" login for any local connection
+# or check out /etc/postgres/9.4/main/pg_ident.conf
 taiga_database_user: "{{ taiga_user }}"
 taiga_database_name: taiga
-
 
 # GitHub repositories (always stable branch)
 taiga_back_repo: https://github.com/stu-ba/taiga-back.git
@@ -25,3 +25,5 @@ taiga_front_dist_repo: https://github.com/stu-ba/taiga-front-dist.git
 
 # Systemd uses daemonized gunicorn to serve django app, circus does not.
 service_manager: systemd #or circus
+
+max_age_auth_token: 60 * 60 * 24 * 15

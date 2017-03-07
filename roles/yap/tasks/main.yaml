@@ -1,0 +1,16 @@
+---
+
+- name: create user "{{ yap_user }}"
+  become: yes
+  user:
+    name: "{{ yap_user }}"
+  tags: [yap]
+
+- include: "{{ role_path }}/tasks/postgresql.yaml"
+  tags: [yap-database, yap]
+
+- include: "{{ role_path }}/tasks/nginx.yaml"
+  tags: [yap-nginx-config, nginx, yap]
+
+- include: "{{ role_path }}/tasks/iptables.yaml"
+  tags: [iptables, yap]

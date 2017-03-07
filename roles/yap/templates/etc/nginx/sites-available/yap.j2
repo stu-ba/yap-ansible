@@ -1,12 +1,12 @@
 server {
-        listen {{ yap_port | default('80') }} default_server;
+        listen {{ yap_port | default("80") }} default_server;
         # listen [::]:80 default_server ipv6only=on;
 
         root /var/www/yap/public;
         index index.php index.html index.htm;
 
         # Make site accessible from http://localhost/
-        server_name {{ yap_ip | default( {{ ip_address }}) }};
+        server_name {{ yap_server_ip }};
 
         location / {
                 # First attempt to serve request as file, then

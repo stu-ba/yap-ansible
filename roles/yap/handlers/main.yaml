@@ -1,0 +1,12 @@
+---
+
+- name: update pg-hba
+  become: yes
+  copy:
+    src: "{{ role_path }}/files/etc/postgresql/9.4/main/pg_hba.conf.{{ pg_environment | default('production') }}"
+    dest: /etc/postgresql/9.4/main/pg_hba.conf
+    owner: postgres
+    group: postgres
+    mode: 0644
+    backup: yes
+  notify: [restart postgresql]

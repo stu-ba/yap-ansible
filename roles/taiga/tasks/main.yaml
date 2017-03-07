@@ -1,6 +1,6 @@
 ---
 
-- name: create user {{ taiga_user }}
+- name: create user "{{ taiga_user }}"
   become: yes
   user:
     name: "{{ taiga_user }}"

@@ -1,5 +1,5 @@
 from .common import *
-
+#smth
 MEDIA_URL = "http://{{ taiga_server_ip }}:{{ taiga_server_port }}/media/"
 STATIC_URL = "http://{{ taiga_server_ip }}:{{ taiga_server_port }}/static/"
 ADMIN_MEDIA_PREFIX = "http://{{ taiga_server_ip }}:{{ taiga_server_port }}/static/admin/"
@@ -13,6 +13,15 @@ DATABASES = {
     }
 }
 
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+]
+
+MAX_AGE_AUTH_TOKEN = {{ max_age_auth_token | default('None') }}
+
 # GRAVATAR_DEFAULT_AVATAR =  "http://{{ taiga_server_ip }}:{{ taiga_server_port }}/static/img/user-noimage.png"
 
 SECRET_KEY = "theveryultratopsecretkey"
@@ -25,28 +34,8 @@ PUBLIC_REGISTER_ENABLED = False
 # DEFAULT_FROM_EMAIL = "no-reply@example.com"
 # SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
-#########################################
-## MAIL SYSTEM SETTINGS
-#########################################
+CHANGE_NOTIFICATIONS_MIN_INTERVAL = 60 #seconds
 
-#DEFAULT_FROM_EMAIL = "john@doe.com"
-CHANGE_NOTIFICATIONS_MIN_INTERVAL = 300 #seconds
-
-# EMAIL SETTINGS EXAMPLE
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_USE_TLS = False
-#EMAIL_HOST = 'localhost'
-#EMAIL_PORT = 25
-#EMAIL_HOST_USER = 'user'
-#EMAIL_HOST_PASSWORD = 'password'
-
-# GMAIL SETTINGS EXAMPLE
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_USE_TLS = True
-#EMAIL_HOST = 'smtp.gmail.com'
-#EMAIL_PORT = 587
-#EMAIL_HOST_USER = 'youremail@gmail.com'
-#EMAIL_HOST_PASSWORD = 'yourpassword'
 
 # Uncomment and populate with proper connection parameters
 # for enable github login/singin.
@@ -55,21 +44,6 @@ CHANGE_NOTIFICATIONS_MIN_INTERVAL = 300 #seconds
 #GITHUB_API_CLIENT_ID = "yourgithubclientid"
 #GITHUB_API_CLIENT_SECRET = "yourgithubclientsecret"
 
-#########################################
-## THROTTLING
-#########################################
-
-#REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"] = {
-#    "anon": "20/min",
-#    "user": "200/min",
-#    "import-mode": "20/sec",
-#    "import-dump-mode": "1/minute"
-#}
-
-#########################################
-## FEEDBACK
-#########################################
-
-# Note: See config in taiga-front too
 FEEDBACK_ENABLED = False
-#FEEDBACK_EMAIL = "support@taiga.io"
+
+WEBHOOKS_ENABLED = True
