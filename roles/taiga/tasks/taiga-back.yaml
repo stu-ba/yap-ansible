@@ -59,7 +59,6 @@
     app_path: "{{ taiga_folder_back }}"
     command: migrate
     virtualenv: "{{ taiga_venv }}"
-  tags: [migrate]
 
 ## needs tweaks (run this only once, or check before running...)
 - name: load data

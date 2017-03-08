@@ -29,18 +29,18 @@
   with_items:
     - circus
     - taiga
-  tags: [systemd, circus, service-manager]
+  tags: [taiga-systemd, systemd, circus, service-manager]
 
 - include: "{{ role_path }}/tasks/circus.yaml"
   tags: [circus-install, circus, taiga, service-manager]
   when: service_manager == "circus"
 
 - include: "{{ role_path }}/tasks/taiga-systemd.yaml"
-  tags: [systemd, taiga, service-manager]
+  tags: [taiga-systemd, systemd, taiga, service-manager]
   when: service_manager == "systemd"
 
 - include: "{{ role_path }}/tasks/nginx.yaml"
   tags: [taiga-nginx-config, nginx, taiga]
 
 - include: "{{ role_path }}/tasks/iptables.yaml"
-  tags: [iptables, taiga]
+  tags: [taiga-iptables, iptables, taiga]

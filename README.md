@@ -1,3 +1,24 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Orchestration of Ytrium server using Ansible](#orchestration-of-ytrium-server-using-ansible)
+- [Installation](#installation)
+  - [Requirements](#requirements)
+  - [Control machine](#control-machine)
+    - [Ubuntu](#ubuntu)
+    - [macOS (via homebrew)](#macos-via-homebrew)
+  - [Target machine](#target-machine)
+- [Usage](#usage)
+  - [Configuration](#configuration)
+  - [Running server-setup.yaml playbook](#running-server-setupyaml-playbook)
+- [Role rundown](#role-rundown)
+    - [Common](#common)
+    - [Taiga](#taiga)
+    - [Yap](#yap)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 >Ansible is a radically simple IT automation engine that automates cloud provisioning, configuration management, application deployment, intra-service orchestration, and many other IT needs.
 
 # Orchestration of Ytrium server using Ansible
@@ -53,7 +74,7 @@ $ ansible --version
 
 ## Target machine
 
-Point of this guide is not about setting up server from scratch, check out free [screencasts](https://serversforhackers.com/series/security) for basic server setup.
+Setting up server from scratch is beyond scope of this document, check out free [screencasts](https://serversforhackers.com/series/security) for basic server setup.
 
 # Usage
 
@@ -107,8 +128,8 @@ $ ansible-playbook server-setup.yaml -t nginx,postgresql
 
 ### Common
 
- - configures /etc/gai.conf
-     - connecting to ipv4 servers
+ - configures [/etc/gai.conf](https://github.com/stu-ba/yap-ansible/blob/master/roles/common/files/etc/gai.conf#L52-L54)
+     - connecting to ipv4 servers ([source](http://askubuntu.com/a/787491))
  - updates && upgrades system
  - removes apache2
  - installs utilities 
@@ -150,7 +171,7 @@ $ ansible-playbook server-setup.yaml -t nginx,postgresql
      - downloads taiga-front from github
          - sets up settings (conf.json)
  - installs, configures service-manager (circus or systemd)
- - sets up nginx configuration for Taiga 
+ - sets up NGINX configuration for Taiga 
  - configures iptables
      - opens port "taiga_server_port"
  
@@ -162,13 +183,15 @@ Problematic variables that need to be curated by server-admin.
 
 >**Note**: Ansible gathers facts about target machine, it uses `$ ip -4 route get 8.8.8.8` to get current IP.
 
+#### Tags
+`taiga`, `taiga-dependencies`, `taiga-database`, `taiga-back-install`, `taiga-front-install`, `taiga-nginx-config`, `taiga-iptables`, `taiga-systemd`, `nginx`, `service-manager`, `circus`, `systemd`, `apt`, `iptables`
 
 
 ### Yap
 
  - creates user (without password)
  - configures postgresql for Yap
-     - sets up nginx configuration for Yap 
+     - sets up NGINX configuration for Yap 
  - configures iptables
      - opens port "yap_server_port"
  
