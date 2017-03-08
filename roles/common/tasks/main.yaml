@@ -10,7 +10,7 @@
     group: root
     mode: 0644
     backup: yes
-  tags: [server-setup, gai]
+  tags: [common, gai]
 
 # Run apt-get update iff cache is older than 3600
 - name: apt update
@@ -49,19 +49,19 @@
   tags: [apt]
 
 - include: "{{ role_path }}/tasks/nginx.yaml" 
-  tags: [nginx, nginx-install, initial-setup]
+  tags: [nginx, nginx-install, common]
 
 - include: "{{ role_path }}/tasks/postgresql.yaml" 
-  tags: [postgresql, postgresql-install, initial-setup]
+  tags: [postgresql, postgresql-install, common]
 
 - include: "{{ role_path }}/tasks/php71-fpm.yaml" 
-  tags: [php71-fpm, php71-fpm-install, initial-setup]
+  tags: [php71-fpm, php71-fpm-install, common]
 
 - include: "{{ role_path }}/tasks/composer.yaml" 
-  tags: [composer, composer-install, initial-setup]
+  tags: [composer, composer-install, common]
 
 - include: "{{ role_path }}/tasks/redis.yaml" 
-  tags: [redis, redis-install, initial-setup]
+  tags: [redis, redis-install, common]
   
 - include: "{{ role_path }}/tasks/iptables.yaml" 
-  tags: [iptables, initial-setup]
+  tags: [iptables, common]
