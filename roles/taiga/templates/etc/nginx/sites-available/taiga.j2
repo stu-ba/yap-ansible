@@ -1,6 +1,6 @@
 server {
     listen {{ taiga_server_port }};
-    server_name _;
+    server_name {{ taiga_server_ip }};
 
     large_client_header_buffers 4 32k;
     client_max_body_size 50M;
@@ -8,6 +8,26 @@ server {
 
     access_log /home/{{ taiga_user }}/logs/nginx.access.log;
     error_log /home/{{ taiga_user }}/logs/nginx.error.log;
+
+    
+    location ~* "v-(?:[0-9]{13}).*\.(?:css|js)$" {
+        root {{ taiga_folder_front }}/dist/;
+        expires 1y;
+        access_log off;
+    }
+
+    location ~* "(locale-([a-z]{2}))|(conf).json$" {
+        root {{ taiga_folder_front }}/dist/;
+        expires 1y;
+        access_log off;
+    }
+
+    location ~* "v-(?:[0-9]{13}).*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc)$" {
+        root {{ taiga_folder_front }}/dist/;
+        expires 1M;
+        access_log off;
+        add_header Cache-Control "public";
+    }
 
     # Frontend
     location / {
@@ -40,11 +60,19 @@ server {
 
     # Static files
     location /static {
-        alias {{ taiga_folder_back }}/static;
+        # alias {{ taiga_folder_back }}/static;
+        root {{ taiga_folder_back }};
+        autoindex off;
     }
 
     # Media files
     location /media {
-        alias {{ taiga_folder_back }}/media;
+        # alias {{ taiga_folder_back }}/media;
+        root {{ taiga_folder_back }};
+        expires 1d;
+        access_log off;
     }
+
+    include h5bp/directive-only/x-ua-compatible.conf;
+    include h5bp/location/protect-system-files.conf;
 }
