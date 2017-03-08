@@ -7,7 +7,7 @@
     version: stable
     dest: "{{ taiga_folder_front }}"
 
-- name: install settings templates
+- name: configure settings
   become: yes
   template:
     src: "{{ role_path }}/templates/front/dist/conf.json.j2"

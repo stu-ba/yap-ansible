@@ -33,6 +33,7 @@
   when: not composer_bin.stat.exists
 
 - name: update Composer to latest version
+  become: yes
   shell: >
     {{ php_executable }} {{ composer_path }} self-update
   register: composer_update

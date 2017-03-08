@@ -51,11 +51,11 @@
 - include: "{{ role_path }}/tasks/nginx.yaml" 
   tags: [nginx, nginx-install, common]
 
-- include: "{{ role_path }}/tasks/postgresql.yaml" 
-  tags: [postgresql, postgresql-install, common]
-
 - include: "{{ role_path }}/tasks/php71-fpm.yaml" 
   tags: [php71-fpm, php71-fpm-install, common]
+
+- include: "{{ role_path }}/tasks/postgresql.yaml" 
+  tags: [postgresql, postgresql-install, common]
 
 - include: "{{ role_path }}/tasks/composer.yaml" 
   tags: [composer, composer-install, common]
