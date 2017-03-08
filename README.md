@@ -162,13 +162,13 @@ $ ansible-playbook server-setup.yaml -t nginx,postgresql
      - creates user && database
      - checks and disables unnecessary privileges
  - sets up taiga-back
-     - downloads taiga-back from github
+     - downloads taiga-back from GitHub
          - sets up settings (local.py)
      - installs requirements in virtualenv
      - installs bcrypt package in virtualenv
      - runs django manage
  - sets up taiga-front
-     - downloads taiga-front from github
+     - downloads taiga-front from GitHub
          - sets up settings (conf.json)
  - installs, configures service-manager (circus or systemd)
  - sets up NGINX configuration for Taiga 
