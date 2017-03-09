@@ -8,6 +8,15 @@ server {
         # Make site accessible from http://localhost/
         server_name {{ yap_server_ip }};
 
+        charset utf-8;
+
+        location = /favicon.ico { access_log off; log_not_found off; }
+        location = /robots.txt  { access_log off; log_not_found off; }
+
+        access_log off;
+
+        error_log  /var/home/logs/yap-error.nginx.log error;
+
         location / {
                 # First attempt to serve request as file, then
                 # as directory, then fall back to displaying a 404.

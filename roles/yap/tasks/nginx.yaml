@@ -1,3 +1,13 @@
+---
+
+- name: create logs folder
+  become: yes
+  file:
+    name: "/home/{{ yap_user }}/logs"
+    state: directory
+    owner: "{{ yap_user }}"
+    group: "{{ yap_group }}"
+
 - name: add yap site
   become: yes
   template:

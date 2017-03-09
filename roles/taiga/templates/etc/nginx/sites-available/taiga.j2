@@ -3,29 +3,27 @@ server {
     server_name {{ taiga_server_ip }};
 
     large_client_header_buffers 4 32k;
-    client_max_body_size 50M;
+
+    client_max_body_size 64M;
+
     charset utf-8;
 
-    access_log /home/{{ taiga_user }}/logs/nginx.access.log;
-    error_log /home/{{ taiga_user }}/logs/nginx.error.log;
+    access_log off;
+    error_log /home/{{ taiga_user }}/logs/nginx.error.log error;
 
-    
     location ~* "v-(?:[0-9]{13}).*\.(?:css|js)$" {
         root {{ taiga_folder_front }}/dist/;
         expires 1y;
-        access_log off;
     }
 
     location ~* "(locale-([a-z]{2}))|(conf).json$" {
         root {{ taiga_folder_front }}/dist/;
         expires 1y;
-        access_log off;
     }
 
     location ~* "v-(?:[0-9]{13}).*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc)$" {
         root {{ taiga_folder_front }}/dist/;
         expires 1M;
-        access_log off;
         add_header Cache-Control "public";
     }
 
@@ -56,6 +54,7 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_pass http://127.0.0.1:8001$request_uri;
         proxy_redirect off;
+        access_log /home/{{ taiga_user }}/logs/nginx.access.log;
     }
 
     # Static files
@@ -70,7 +69,6 @@ server {
         # alias {{ taiga_folder_back }}/media;
         root {{ taiga_folder_back }};
         expires 1d;
-        access_log off;
     }
 
     include h5bp/directive-only/x-ua-compatible.conf;
