@@ -187,7 +187,9 @@ Problematic variables that need to be curated by server-admin.
 `taiga`, `taiga-dependencies`, `taiga-database`, `taiga-back-install`, `taiga-front-install`, `taiga-nginx-config`, `taiga-iptables`, `taiga-systemd`, `nginx`, `service-manager`, `circus`, `systemd`, `apt`, `iptables`
 
 
-### Yap
+### Yap **unfinished**
+
+
 
  - creates user (without password)
  - configures postgresql for Yap
@@ -195,3 +197,15 @@ Problematic variables that need to be curated by server-admin.
  - configures iptables
      - opens port "yap_server_port"
  
+
+## Todo:
+
+ - [] properly differentiate between production and development environmnet
+ - [] finish Yap orchestration (first install, updates) 
+
+
+### Thanks to
+
+ - [serversforhackers.com](https://serversforhackers.com/series)
+
+ - [https://leucos.github.io/](https://leucos.github.io/ansible-files-layout)
