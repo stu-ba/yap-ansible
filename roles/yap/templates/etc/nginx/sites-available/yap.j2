@@ -15,7 +15,7 @@ server {
 
         access_log off;
 
-        error_log  /var/home/logs/yap-error.nginx.log error;
+        error_log  /home/{{ yap_user }}/logs/yap-error.nginx.log error;
 
         location / {
                 # First attempt to serve request as file, then

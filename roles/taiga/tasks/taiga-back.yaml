@@ -36,6 +36,18 @@
     owner: "{{ taiga_user }}"
     group: "{{ taiga_group }}"
 
+- name: upgrade pip and setuptools to latest
+  become: yes
+  become_user: "{{ taiga_user }}"
+  pip:
+    virtualenv: "{{ taiga_venv }}"
+    virtualenv_python: python3.4
+    name: "{{ item }}"
+    state: latest
+  with_items: 
+    - setuptools
+    - pip
+
 - name: install requirements in virtualenv
   become: yes
   become_user: "{{ taiga_user }}"
@@ -67,8 +79,12 @@
   django_manage:
     app_path: "{{ taiga_folder_back }}"
     command: loaddata
-    fixtures: "initial_user initial_project_templates initial_role"
+    fixtures: "{{ item }}"
     virtualenv: "{{ taiga_venv }}"
+  with_items: 
+    - initial_user
+    - initial_project_templates
+    #- initial_role
 
 - name: run compile messages
   become: yes
