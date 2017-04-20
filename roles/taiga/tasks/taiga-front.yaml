@@ -4,7 +4,7 @@
   become: yes
   git:
     repo: "{{ taiga_front_dist_repo }}"
-    version: stable
+    version: taiga-yap
     dest: "{{ taiga_folder_front }}"
 
 - name: configure settings
