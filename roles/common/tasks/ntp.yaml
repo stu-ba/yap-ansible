@@ -1,0 +1,25 @@
+---
+
+- name: set timezone to Europe/Bratislava
+  become: yes
+  timezone:
+    name: Europe/Bratislava
+
+- name: install ntp
+  become: yes
+  apt: 
+    name: ntp 
+    state: present
+  notify: [start ntp]
+  tags: [apt]
+
+- name: update ntp.conf
+  become: yes
+  copy:
+    src: "{{ role_path }}/files/etc/ntp.conf"
+    dest: /etc/ntp.conf
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  notify: [reload ntp]

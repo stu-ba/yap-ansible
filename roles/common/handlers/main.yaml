@@ -18,6 +18,18 @@
   become: yes
   systemd: name=nginx state=restarted
 
+- name: start ntp
+  become: yes
+  systemd: name=ntp state=started
+
+- name: reload ntp
+  become: yes
+  systemd: name=ntp state=reloaded
+
+- name: restart ntp
+  become: yes
+  systemd: name=ntp state=restarted
+
 - name: start php7.1-fpm
   become: yes
   systemd: name=nginx state=started
