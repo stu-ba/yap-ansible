@@ -19,7 +19,7 @@ taiga_venv: "/home/{{ taiga_user }}/.venv"
 taiga_database_user: "{{ taiga_user }}"
 taiga_database_name: taiga
 
-# GitHub repositories (always stable branch)
+# GitHub repositories (yap-stable)
 taiga_back_repo: https://github.com/stu-ba/taiga-back.git
 taiga_front_dist_repo: https://github.com/stu-ba/taiga-front-dist.git
 

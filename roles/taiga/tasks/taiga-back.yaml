@@ -15,7 +15,7 @@
   become: yes
   git:
     repo: "{{ taiga_back_repo }}"
-    version: stable
+    version: yap-stable
     dest: "{{ taiga_folder_back }}"
 
 - name: copy taiga-back settings (local.py)
@@ -84,7 +84,6 @@
   with_items: 
     - initial_user
     - initial_project_templates
-    #- initial_role
 
 - name: run compile messages
   become: yes
