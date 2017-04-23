@@ -22,10 +22,6 @@
   become: yes
   systemd: name=ntp state=started
 
-- name: reload ntp
-  become: yes
-  systemd: name=ntp state=reloaded
-
 - name: restart ntp
   become: yes
   systemd: name=ntp state=restarted
