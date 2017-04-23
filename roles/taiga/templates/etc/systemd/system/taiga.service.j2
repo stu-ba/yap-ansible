@@ -3,6 +3,8 @@
 [Unit]
 Description=Taiga's Backend Engine
 After=network.target
+Wants=nginx.service
+BindsTo=postgresql.service
 
 [Service]
 Type=forking
