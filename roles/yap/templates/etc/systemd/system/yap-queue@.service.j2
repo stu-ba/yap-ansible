@@ -1,0 +1,34 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=Yap queue worker %i
+# Documentation=php /home/yap/application/artisan queue:work --help
+PartOf=yap-queue.target
+
+[Service]
+Type=simple
+User={{ yap_user }}
+Group={{ yap_group }}
+
+WorkingDirectory={{ yap_application }}
+
+Environment=USER={{ yap_user }}
+Environment=LANG=en_US.UTF-8
+Environment=HOME=/home/{{ yap_user }}
+
+ExecStart=/usr/bin/php {{ yap_application }}/artisan queue:work database --queue={{ yap_queues}} --sleep=3 --tries=2
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+
+Restart=always
+RestartSec=5
+
+TimeoutStopSec=15
+
+PrivateTmp=true
+
+StandardOutput=syslog+console
+StandardError=syslog+console
+
+[Install]
+WantedBy=yap-queue.target

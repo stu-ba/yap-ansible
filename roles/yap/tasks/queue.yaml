@@ -1,0 +1,65 @@
+---
+
+- name: retrieve number of yap-queue.service instances
+  become: yes
+  shell: find /etc/systemd/system/yap-queue.target.wants -type l -name "yap-queue*" | wc -l
+  register: number_of_yap_queue_instances
+
+- name: copy yap-queue target config
+  become: yes
+  template:
+    src: "{{ role_path }}/templates/etc/systemd/system/yap-queue.target.j2"
+    dest: /etc/systemd/system/yap-queue.target
+
+- name: copy yap-queue service config
+  become: yes
+  template:
+    src: "{{ role_path }}/templates/etc/systemd/system/yap-queue@.service.j2"
+    dest: /etc/systemd/system/yap-queue@.service
+
+- name: clean yap-queue.target.wants folder
+  become: yes
+  file:
+    state: absent
+    path: "/etc/systemd/system/yap-queue.target.wants"
+  when: (yap_num_queue_workers == '0') or
+        (number_of_yap_queue_instances.stdout != '{{yap_num_queue_workers}}')
+
+- name: create yap-queue.target.wants folder
+  become: yes
+  file:
+    name: /etc/systemd/system/yap-queue.target.wants
+    state: directory
+  when: yap_num_queue_workers > 0
+
+- name: create symbolic links for yap-queues
+  become: yes
+  file: 
+    src: /etc/systemd/system/yap-queue@.service
+    dest: "/etc/systemd/system/yap-queue.target.wants/yap-queue@{{ item }}.service"
+    state: link
+  with_sequence: count={{ yap_num_queue_workers }}
+  when: yap_num_queue_workers > 0
+  notify:
+    - stop yap-queue
+
+- name: set queue type fact to sync
+  become: yes
+  set_fact: queue_driver=sync
+  changed_when: (yap_num_queue_workers == 0) and
+                (number_of_yap_queue_instances.stdout != '{{yap_num_queue_workers}}')
+  when: yap_num_queue_workers == 0
+  notify:
+    - disable yap-queue
+
+- name: set queue type fact to database
+  become: yes
+  set_fact: queue_driver=database
+  changed_when: (yap_num_queue_workers > 0) and
+                (number_of_yap_queue_instances.stdout != '{{yap_num_queue_workers}}')
+  when: yap_num_queue_workers > 0
+
+- name: start and enable yap-queue if not running
+  become: yes
+  systemd: name=yap-queue.target daemon_reload=yes state=started enabled=yes
+  when: yap_num_queue_workers > 0

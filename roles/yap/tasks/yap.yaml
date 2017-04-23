@@ -1,0 +1,20 @@
+---
+
+# Install Yap application
+
+- name: download the code from GitHub
+  become: yes
+  become_user: "{{ yap_user }}"
+  git:
+    repo: "{{ yap_repo }}"
+    version: stable
+    dest: "{{ yap_application }}"
+
+- name: run composer install
+  become: yes
+  become_user: "{{ yap_user }}"
+  composer:
+    command: install
+    working_dir: "{{ yap_application }}"
+
+### some more tasks for "installation"

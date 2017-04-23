@@ -9,18 +9,21 @@ yap_server_ip_v6: "{{ ansible_default_ipv6.address }}"
 # Yap user / folder structure
 yap_user: yap
 yap_group: "{{ yap_user }}" 
+yap_application: "/home/{{ yap_user }}/application"
 
 # Yap database settings
-# yap_database_user should match with yap_user! since postgresql is set up to use "peer" login for any local connection
+# yap_database_user should match with yap_user! since PostgreSQL is set up to use "peer" login for any local connection
 # or check out /etc/postgres/9.4/main/pg_ident.conf
 yap_database_user: "{{ yap_user }}"
 yap_database_name: yap
 
 # GitHub repositories
-yap_back_repo: None
-yap_front_dist_repo: None 
+yap_repo: https://github.com/stu-ba/yap-3.git
+
+yap_num_queue_workers: 1
+yap_queues: email,github,taiga
 
 pg_environment: production
 
-#only used when development environmnet is set + another layer of security is pg_hba.conf
+#only used when development environment is set + another layer of security is pg_hba.conf
 pg_dev_password: neopw

@@ -10,3 +10,23 @@
     mode: 0644
     backup: yes
   notify: [restart postgresql]
+
+- name: start yap-queue
+  become: yes
+  systemd: name=yap-queue.target daemon_reload=yes state=started
+
+- name: stop yap-queue
+  become: yes
+  systemd: name=yap-queue.target daemon_reload=yes state=stopped
+
+- name: restart yap-queue
+  become: yes
+  systemd: name=yap-queue.target daemon_reload=yes state=restarted
+
+- name: enable yap-queue
+  become: yes
+  systemd: name=yap-queue.target daemon_reload=yes state=started enabled=yes
+
+- name: disable yap-queue
+  become: yes
+  systemd: name=yap-queue.target daemon_reload=yes state=stopped enabled=no

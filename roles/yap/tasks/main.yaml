@@ -1,5 +1,23 @@
 ---
 
+- stat: path=/home/{{ taiga_user }}/scripts/ytrium_id.sh
+  register: ytrium_id_sh_file
+  tags: [yap]
+
+- name: set YTRIUM_ID fact
+  become: yes
+  become_user: "{{ taiga_user }}"
+  shell: /home/{{ taiga_user }}/scripts/ytrium_id.sh
+  register: ytrium_id
+  when: ytrium_id_sh_file.stat.exists
+  changed_when: false
+  tags: [yap]
+
+- name: set fact ytrium_id = {{ ytrium_id.stdout | int | default(0) }}
+  become: yes
+  set_fact: ytrium_id={{ ytrium_id.stdout | int | default(0) }}
+  tags: [yap]
+
 - name: create user "{{ yap_user }}"
   become: yes
   user:
@@ -14,3 +32,9 @@
 
 - include: "{{ role_path }}/tasks/iptables.yaml"
   tags: [iptables, yap]
+
+- include: "{{ role_path }}/tasks/yap.yaml"
+  tags: [application, yap]
+
+- include: "{{ role_path }}/tasks/queue.yaml"
+  tags: [queue, yap]

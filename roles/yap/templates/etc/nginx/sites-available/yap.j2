@@ -1,8 +1,10 @@
+# {{ ansible_managed }}
+
 server {
         listen {{ yap_port | default("80") }} default_server;
         # listen [::]:80 default_server ipv6only=on;
 
-        root /home/yap/www/public;
+        root /home/yap/application/public;
         index index.php index.html index.htm;
 
         # Make site accessible from http://localhost/

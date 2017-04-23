@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=Yap queue target
+After=network.target
+Requisite=postgresql.service
+BindsTo=postgresql.service
+
+# Documentation=php /home/yap/application/artisan queue:work --help
+
+
+[Install]
+WantedBy=multi-user.target
