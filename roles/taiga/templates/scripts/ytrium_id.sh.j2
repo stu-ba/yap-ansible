@@ -1,0 +1,19 @@
+#!/bin/bash
+# {{ ansible_managed }}
+
+# Get ytrium id from database
+
+
+read YTRIUM_ID <<< $(/usr/bin/psql \
+    -X \
+    -U {{ taiga_database_user }} \
+    -d {{ taiga_database_name }} \
+    --single-transaction \
+    --set ON_ERROR_STOP=on \
+    --no-align \
+    -t \
+    --field-separator ' ' \
+    --quiet \
+    -c "select id from users_user where username = 'ytrium'")
+
+echo "$YTRIUM_ID"
