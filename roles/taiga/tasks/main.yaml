@@ -18,6 +18,9 @@
 - include: "{{ role_path }}/tasks/taiga-front.yaml"
   tags: [taiga-front-install, taiga]
 
+- include: "{{ role_path}}/tasks/support.yaml"
+  tags: [taiga, support]
+
 - name: stop service manager if running and disable it
   become: yes
   ignore_errors: yes

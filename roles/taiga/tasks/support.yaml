@@ -1,0 +1,20 @@
+---
+
+# Taiga support
+
+- name: create support folder
+  become: yes
+  file:
+    name: "/home/{{ taiga_user }}/{{ item }}"
+    state: directory
+    owner: "{{ taiga_user }}"
+    group: "{{ taiga_group }}"
+  with_items:
+    - scripts
+
+- name: copy support scripts
+  become: yes
+  template:
+    src: "{{ role_path }}/templates/scripts/ytrium_id.sh.j2"
+    dest: "/home/{{ taiga_user }}/scripts/ytrium_id.sh"
+    mode: 0755
