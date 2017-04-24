@@ -95,7 +95,6 @@ Before running Ansible make sure you read and understand following files:
 > * role vars
 > * task vars
 > * extra vars
-
 > full list can be found in Ansible [documentation](http://docs.ansible.com/ansible/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable)
 
 ## Running server-setup.yaml playbook
