@@ -47,3 +47,8 @@
     backup: yes
   notify: [reload nginx]
 
+- name: create nginx.service.wants folder
+  become: yes
+  file:
+    name: /etc/systemd/system/nginx.service.wants
+    state: directory

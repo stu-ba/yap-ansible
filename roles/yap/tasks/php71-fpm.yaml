@@ -1,0 +1,25 @@
+---
+
+- name: check if /etc/php/7.1/fpm/pool.d.original exists  
+  become: yes   
+  stat: path=/etc/php/7.1/fpm/pool.d.original
+  register: pool_d_original
+
+- name: make backup of pool.d
+  become: yes
+  command: mv /etc/php/7.1/fpm/pool.d /etc/php/7.1/fpm/pool.d.original
+  when: not pool_d_original.stat.exists
+
+- name: create pool.d directory
+  become: yes
+  file:
+    path: /etc/php/7.1/fpm/pool.d
+    state: directory
+    mode: 0755
+
+- name: copy yap.conf
+  become: yes
+  template:
+    src: "{{ role_path }}/templates/etc/php/7.1/fpm/pool.d/yap.conf.j2"
+    dest: /etc/php/7.1/fpm/pool.d/yap.conf
+  notify: [restart php7.1-fpm]

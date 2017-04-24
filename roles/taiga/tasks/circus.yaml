@@ -14,7 +14,7 @@
   notify:
     - restart circus
 
-- name: remove taiga-service config file
+- name: remove taiga service unit file
   become: yes
   file:
     state: absent
@@ -33,6 +33,13 @@
     dest: /etc/systemd/system/circus.service
   notify:
     - restart circus
+
+- name: add circus service unit to postgresql wants folder
+  become: yes
+  file: 
+    src: /etc/systemd/system/circus.service
+    dest: /etc/systemd/system/postgresql.service.wants/circus.service
+    state: link
 
 - name: enable circus
   become: yes

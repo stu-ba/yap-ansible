@@ -2,6 +2,7 @@
 
 - name: download the code from github
   become: yes
+  become_user: "{{ taiga_user }}"
   git:
     repo: "{{ taiga_front_dist_repo }}"
     version: yap-stable
@@ -9,6 +10,7 @@
 
 - name: configure settings
   become: yes
+  become_user: "{{ taiga_user }}"
   template:
     src: "{{ role_path }}/templates/front/dist/conf.json.j2"
     dest: "{{ taiga_folder_front }}/dist/conf.json"

@@ -3,6 +3,7 @@
 [Unit]
 Description=Circus process manager
 After=syslog.target network.target nss-lookup.target
+BindsTo=postgresql.service
 
 [Service]
 Type=simple

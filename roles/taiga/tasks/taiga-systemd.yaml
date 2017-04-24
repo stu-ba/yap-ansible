@@ -6,18 +6,25 @@
     state: absent
     path: /home/{{ taiga_user }}/conf/circus.ini
 
-- name: remove circus service config
+- name: remove circus service unit
   become: yes
   file:
     state: absent
     path: /etc/systemd/system/circus.service
 
-- name: copy taiga-service config
+- name: copy taiga service unit
   become: yes
   template:
     src: "{{ role_path }}/templates/etc/systemd/system/taiga.service.j2"
     dest: /etc/systemd/system/taiga.service
 
+- name: add taiga service unit to postgresql wants folder
+  become: yes
+  file:
+    src: /etc/systemd/system/taiga.service
+    dest: /etc/systemd/system/postgresql.service.wants/taiga.service
+    state: link
+    
 - name: copy tempfiles.d/taiga.conf
   become: yes
   template:
