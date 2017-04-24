@@ -22,6 +22,9 @@
   become: yes
   user:
     name: "{{ yap_user }}"
+    shell: /bin/bash
+    # groups: www-data # Lets keep user and group as yap and lets figure out hot to configure php fpm pool to use yap:yap
+    append: yes
   tags: [yap]
 
 - include: "{{ role_path }}/tasks/postgresql.yaml"
@@ -32,6 +35,9 @@
 
 - include: "{{ role_path }}/tasks/iptables.yaml"
   tags: [iptables, yap]
+
+- include: "{{ role_path}}/tasks/php71-fpm.yaml"
+  tags: [php71-fpm, yap]
 
 - include: "{{ role_path }}/tasks/yap.yaml"
   tags: [application, yap]

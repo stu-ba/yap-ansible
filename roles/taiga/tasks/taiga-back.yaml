@@ -13,6 +13,7 @@
 
 - name: download the code from GitHub
   become: yes
+  become_user: "{{ taiga_user }}"
   git:
     repo: "{{ taiga_back_repo }}"
     version: yap-stable
@@ -20,6 +21,7 @@
 
 - name: copy taiga-back settings (local.py)
   become: yes
+  become_user: "{{ taiga_user }}"
   template:
     src: "{{ role_path }}/templates/back/settings/local.py.j2"
     dest: "{{ taiga_folder_back }}/settings/local.py"
@@ -71,9 +73,9 @@
     app_path: "{{ taiga_folder_back }}"
     command: migrate
     virtualenv: "{{ taiga_venv }}"
+  register: migrations
 
-## needs tweaks (run this only once, or check before running...)
-- name: load data
+- name: load initial data
   become: yes
   become_user: "{{ taiga_user }}"
   django_manage:
@@ -84,6 +86,7 @@
   with_items: 
     - initial_user
     - initial_project_templates
+  when: migrations.changed
 
 - name: run compile messages
   become: yes

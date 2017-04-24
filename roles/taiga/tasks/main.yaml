@@ -4,7 +4,11 @@
   become: yes
   user:
     name: "{{ taiga_user }}"
+    shell: /bin/bash
   tags: [taiga]
+
+- include: "{{ role_path}}/tasks/support.yaml"
+  tags: [taiga, support]
 
 - include: "{{ role_path }}/tasks/dependencies.yaml" 
   tags: [taiga-dependencies, taiga]
@@ -17,9 +21,6 @@
 
 - include: "{{ role_path }}/tasks/taiga-front.yaml"
   tags: [taiga-front-install, taiga]
-
-- include: "{{ role_path}}/tasks/support.yaml"
-  tags: [taiga, support]
 
 - name: stop service manager if running and disable it
   become: yes
