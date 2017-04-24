@@ -8,6 +8,18 @@
     version: yap-stable
     dest: "{{ taiga_folder_front }}"
 
+# Load yap variables since we need yap_server_ip
+- name: include vars from yap role
+  include_vars:
+    file: "{{ playbook_dir }}/roles/yap/vars/main.yaml"
+    name: yap
+
+- name: include default vars from yap role
+  include_vars:
+    file: "{{ playbook_dir }}/roles/yap/defaults/main.yaml"
+    name: yap
+  when: yap_server_ip is not defined
+
 - name: configure settings
   become: yes
   become_user: "{{ taiga_user }}"

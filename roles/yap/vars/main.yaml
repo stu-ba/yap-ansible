@@ -1,5 +1,5 @@
 ---
 
 yap_port: 80
-yap_ip_address: 192.168.6.199
+yap_server_ip: 192.168.6.199
 pg_environment: development
