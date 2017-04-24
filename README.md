@@ -90,15 +90,15 @@ Before running Ansible make sure you read and understand following files:
 
 >**Note**: `/roles/*/defaults/main.yaml` are **defaults** use `/roles/*/vars/main.yaml` to change desired key-pair value
 
->> variable order of precedence (list is shorten):
+> variable order of precedence (list is shorten):
 
->> * role defaults
->> * playbook vars
->> * role vars
->> * task vars
->> * extra vars
+> * role defaults
+> * playbook vars
+> * role vars
+> * task vars
+> * extra vars
 
->> full list can be found in Ansible [documentation](http://docs.ansible.com/ansible/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable)
+> full list can be found in Ansible [documentation](http://docs.ansible.com/ansible/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable)
 
 ## Running server-setup.yaml playbook
 
@@ -136,9 +136,14 @@ $ ansible-playbook server-setup.yaml -t nginx,postgresql
      - (un)zip
      - git
      - curl
+     - htop
  - installs && configures NGINX
      - [h5bp](https://github.com/h5bp/server-configs-nginx) configuration
- - installs php7.1-fpm from sury.org
+ - installs php7.1-fpm from sury.org and extensions
+    - php7.1-mbstring
+    - php7.1-pgsql
+    - php7.1-xml
+    - php7.1-curl
  - installs postgresql-9.4
      - with python-psycopg2 (used by Ansible modules [postgresql_user](http://docs.ansible.com/ansible/postgresql_user_module.html) and [postgresql_privs](http://docs.ansible.com/ansible/postgresql_privs_module.html))
  - installs composer (php package manager)
@@ -158,7 +163,7 @@ $ ansible-playbook server-setup.yaml -t nginx,postgresql
 
  - creates user (without password)
  - installs dependencies to run Taiga
- - configures postgresql for Taiga
+ - configures PostgreSQL for Taiga
      - creates user && database
      - checks and disables unnecessary privileges
  - sets up taiga-back
@@ -188,7 +193,6 @@ Problematic variables that need to be curated by server-admin.
 
 
 ### Yap **unfinished**
-
 
 
  - creates user (without password)
