@@ -6,8 +6,6 @@
   copy:
     src: "{{ role_path }}/files/etc/gai.conf"
     dest: /etc/gai.conf
-    owner: root
-    group: root
     mode: 0644
     backup: yes
   tags: [common, gai]
@@ -46,6 +44,7 @@
     - unzip
     - git
     - curl
+    - htop
   tags: [apt]
 
 - include: "{{ role_path }}/tasks/ntp.yaml" 
