@@ -20,8 +20,8 @@ yap_database_name: yap
 # GitHub repositories
 yap_repo: https://github.com/stu-ba/yap-3.git
 
-yap_num_queue_workers: 1
-yap_queues: email,github,taiga
+yap_num_queue_workers: 4
+yap_queues: emails,github,taiga
 
 pg_environment: production
 
