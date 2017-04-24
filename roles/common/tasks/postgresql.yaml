@@ -15,3 +15,16 @@
   notify: 
     - start postgresql
   tags: [apt]
+
+- name: create postgresql.service.wants folder
+  become: yes
+  file:
+    name: /etc/systemd/system/postgresql.service.wants
+    state: directory
+
+- name: touch empty file for postgresql.service.wants folder
+  become: yes
+  file:
+    name: /etc/systemd/system/postgresql.service.wants/empty
+    state: touch
+    
