@@ -89,9 +89,7 @@ Before running Ansible make sure you read and understand following files:
  - ./roles/yap/defaults/main.yaml
 
 >**Note**: `/roles/*/defaults/main.yaml` are **defaults** use `/roles/*/vars/main.yaml` to change desired key-pair value
-
 > variable order of precedence (list is shorten):
-
 > * role defaults
 > * playbook vars
 > * role vars
