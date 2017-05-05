@@ -23,7 +23,7 @@
 
 # Orchestration of Ytrium server using Ansible
 
-<img src="https://img.shields.io/badge/Debian-Jessie_(8)-green.svg?style=flat-square"> <img src="https://img.shields.io/badge/Ansible-2.2.1.0-blue.svg?style=flat-square">
+<img src="https://img.shields.io/badge/Debian-Jessie_(8)-green.svg?style=flat-square"> <img src="https://img.shields.io/badge/Ansible-2.3.0.0-blue.svg?style=flat-square">
 
 In this repository you can find self-explanatory group of `yaml` files describing installation of Ytrium server.
 
@@ -39,15 +39,16 @@ You can read more about each role in [role rundown](https://github.com/stu-ba/ya
 
 ## Requirements
 
- - control machine 
+ - control machine
      - Linux, Mac or BSD
      - ssh
      - Python 2.7
-     - Ansible 2.2.1.0, [detailed installation guide](http://docs.ansible.com/ansible/intro_installation.html#installation)
+     - Ansible 2.3.0.0, [detailed installation guide](http://docs.ansible.com/ansible/intro_installation.html#installation)
  - target machine
      - Debian 8
      - sshd
      - sudo user
+     - internet connection
      
  
  >**Note**: Control machine is machine which is running Ansible. It can be your workstation or any server you have control of.
@@ -88,10 +89,10 @@ Before running Ansible make sure you read and understand following files:
  - ./roles/taiga/defaults/main.yaml
  - ./roles/yap/defaults/main.yaml
 
->**Note**: `/roles/*/defaults/main.yaml` are **defaults** use `/roles/*/vars/main.yaml` to change desired key-pair value
+>**Note**: `/roles/*/defaults/main.yaml` are **defaults** use `/roles/*/vars/main.yaml` to change desired key-pair value,
 > variable order of precedence (list is shorten):
 > * role defaults
-> * playbook vars
+> * play-book vars
 > * role vars
 > * task vars
 > * extra vars
@@ -113,6 +114,8 @@ Where **INVENTORY-ENTRY** is group or single machine.
 $ ansible-playbook server-setup.yaml
 ```
 
+> **Note:** You can run full playbook multiple times; status "changed" should be seen only ~3-5 times.
+
 #### Running tag specific playbook
 
 ```
@@ -120,7 +123,6 @@ $ ansible-playbook server-setup.yaml -t nginx,postgresql
 ```
 
 >**Note**: each role has its own tag in case you want to run just specific role
-
 
 # Role rundown
 
@@ -192,18 +194,18 @@ Problematic variables that need to be curated by server-admin.
 
 ### Yap **unfinished**
 
-
  - creates user (without password)
- - configures postgresql for Yap
-     - sets up NGINX configuration for Yap 
+ - configures PostgreSQL for Yap
+     - csss
+ - sets up NGINX configuration for Yap
  - configures iptables
      - opens port "yap_server_port"
  
 
 ## Todo:
 
- - [] properly differentiate between production and development environmnet
- - [] finish Yap orchestration (first install, updates) 
+ - [ ] properly differentiate between production and development environment
+ - [ ] finish Yap orchestration (first install, updates) 
 
 
 ### Thanks to
