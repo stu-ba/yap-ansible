@@ -161,6 +161,7 @@ $ ansible-playbook server-setup.yaml -t nginx,postgresql
  
 
 ### Taiga
+Full guide on how to install taiga from scratch provided by Taiga.io can be found on their [site](https://taigaio.github.io/taiga-doc/dist/setup-production.html). Tutorial is tailored for Ubuntu distribution not Debian (which we use), so there might be slight changes.
 
  - creates user (without password)
  - installs dependencies to run Taiga
@@ -180,7 +181,8 @@ $ ansible-playbook server-setup.yaml -t nginx,postgresql
  - sets up NGINX configuration for Taiga 
  - configures iptables
      - opens port "taiga_server_port"
- 
+
+> **Note**: Taiga.io uses circus as service-manager by default, we migrated this functionality to [systemd unit](https://github.com/stu-ba/yap-ansible/blob/master/roles/taiga/templates/etc/systemd/system/taiga.service.j2).
 
 #### Variables
 Problematic variables that need to be curated by server-admin.
