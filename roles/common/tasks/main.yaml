@@ -62,8 +62,8 @@
 - include: "{{ role_path }}/tasks/composer.yaml" 
   tags: [composer, composer-install, common]
 
-- include: "{{ role_path }}/tasks/redis.yaml" 
-  tags: [redis, redis-install, common]
+# - include: "{{ role_path }}/tasks/redis.yaml" 
+#   tags: [redis, redis-install, common]
   
 - include: "{{ role_path }}/tasks/iptables.yaml" 
   tags: [iptables, common]

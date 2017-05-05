@@ -140,6 +140,7 @@ $ ansible-playbook server-setup.yaml -t nginx,postgresql
  - installs && configures NGINX
      - [h5bp](https://github.com/h5bp/server-configs-nginx) configuration
  - installs php7.1-fpm from sury.org and extensions
+    - php7.1-fpm
     - php7.1-mbstring
     - php7.1-pgsql
     - php7.1-xml
@@ -147,7 +148,7 @@ $ ansible-playbook server-setup.yaml -t nginx,postgresql
  - installs postgresql-9.4
      - with python-psycopg2 (used by Ansible modules [postgresql_user](http://docs.ansible.com/ansible/postgresql_user_module.html) and [postgresql_privs](http://docs.ansible.com/ansible/postgresql_privs_module.html))
  - installs composer (php package manager)
- - installs redis
+ - installs redis (depreciated) / we use file cache provided by Laravel
  - configures iptables
      - installs iptables-persistent
      - allows loopback traffic
