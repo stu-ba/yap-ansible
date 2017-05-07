@@ -30,7 +30,7 @@
     state: absent
     path: "/etc/systemd/system/yap-queue.target.wants"
   when: (yap_num_queue_workers == '0') or
-        (number_of_yap_queue_instances.stdout != '{{yap_num_queue_workers}}')
+        (number_of_yap_queue_instances.stdout != 'yap_num_queue_workers')
 
 - name: create yap-queue.target.wants folder
   become: yes
@@ -54,7 +54,7 @@
   become: yes
   set_fact: queue_driver=sync
   changed_when: (yap_num_queue_workers == 0) and
-                (number_of_yap_queue_instances.stdout != '{{yap_num_queue_workers}}')
+                (number_of_yap_queue_instances.stdout != 'yap_num_queue_workers')
   when: yap_num_queue_workers == 0
   notify:
     - disable yap-queue
@@ -63,7 +63,7 @@
   become: yes
   set_fact: queue_driver=database
   changed_when: (yap_num_queue_workers > 0) and
-                (number_of_yap_queue_instances.stdout != '{{yap_num_queue_workers}}')
+                (number_of_yap_queue_instances.stdout != 'yap_num_queue_workers')
   when: yap_num_queue_workers > 0
 
 - name: start and enable yap-queue if not running
