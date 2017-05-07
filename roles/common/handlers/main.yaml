@@ -54,5 +54,3 @@
   become: yes
   shell: >
     dpkg-reconfigure -p critical iptables-persistent
-
-  
