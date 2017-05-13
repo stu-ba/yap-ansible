@@ -23,7 +23,7 @@ yap_repo: https://github.com/stu-ba/yap-3.git
 yap_num_queue_workers: 4
 yap_queues: emails,github,taiga
 
-pg_environment: production
+pg_environment: production # development
 
-#only used when development environment is set + another layer of security is pg_hba.conf
+# only used when development environment is set + another layer of security is pg_hba.conf
 pg_dev_password: neopw
